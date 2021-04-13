@@ -9,6 +9,9 @@
 // cargo true size width = 10
 //                length = 44
 
+
+
+
 #include <iostream>
 
 #define CARGO_WIDTH  10
@@ -16,6 +19,18 @@
 #define CARGO_STACK  5
 #define UPPER_MARGIN  2
 #define RIGHT_MARGIN  4
+
+int div_up(int x, double y) {
+
+    double solution = x/y;
+
+            if(solution!=(int) solution)solution += 1;
+
+
+    return (int) solution;
+
+}
+
 
 struct plane {
     plane(unsigned width, unsigned length) : width(width), length(length) {};
@@ -29,9 +44,9 @@ struct plane {
 
     friend std::ostream &operator<<(std::ostream &os, const plane &dt) {
 
-
-        os << (dt.length + RIGHT_MARGIN)*44<< " x " << (dt.width + UPPER_MARGIN)*10 << " = ";
-        os << (dt.length + RIGHT_MARGIN) * (dt.width + UPPER_MARGIN)*44*10 << "\n";
+        os << dt.length << "\t" << dt.width << "\t" << dt.length * dt.width << "\n";
+        os << (dt.length*44 + RIGHT_MARGIN) << " x " << (dt.width*10 + UPPER_MARGIN)  << " = ";
+        os << (dt.length*44 + RIGHT_MARGIN) * (dt.width*10 + UPPER_MARGIN)  << "\n";
 
         return os;
     }
@@ -52,8 +67,9 @@ int main() {
 
 plane first_try_using_quadratic_formula(int number_of_cargo) {
     int number_of_stacks = number_of_cargo / CARGO_STACK;
-    if (number_of_cargo % CARGO_STACK != 0) number_of_stacks++;     // in case of division with leftovers (good show btw)
-                                                                    // we need to add one more stack
+    if (number_of_cargo % CARGO_STACK != 0)
+        number_of_stacks++;     // in case of division with leftovers (good show btw)
+    // we need to add one more stack
 
 
     // now f(l,w) = p where   w (width) l(length)
@@ -93,18 +109,16 @@ plane eghh_why_so_boring_is_so_good(int number_of_cargo) {
     // 2.    |w-l| is the lowest
 
 
-
     // now for the upper and left margin
     // there's a margin soo.. yeah
     // 1. w*l+w*4+l*2 = n
     // 2. |(w+w*2)-(l+l*4)| is the lowest
 
 
+    int l = div_up(number_of_stacks , 4.4*2);
+    int w = number_of_stacks / l;
 
-    int l = number_of_stacks / 4.4;
-    int w = number_of_stacks / w ;
 
-
-    return plane(w,l);
+    return plane(w, l);
 
 }
