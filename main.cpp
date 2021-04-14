@@ -9,9 +9,6 @@
 // cargo true size width = 10
 //                length = 44
 
-
-
-
 #include <iostream>
 
 #define CARGO_WIDTH  10
