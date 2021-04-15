@@ -10,7 +10,7 @@
 //                length = 44
 #include <vector>
 #include <iostream>
-#include <fstream>
+
 
 #define CARGO_WIDTH  10
 #define CARGO_LENGTH  44 // these values are described in true cargo sizes
@@ -22,10 +22,7 @@
 using l_size_t = unsigned long int ;
 
 struct plane {
-    plane(l_size_t length, l_size_t width) : width(width), length(length) {
-
-
-    };
+    plane(l_size_t length, l_size_t width) : width(width), length(length) {};
 
     plane() : width(0), length(0) {};
     //      here:
@@ -34,16 +31,7 @@ struct plane {
     // these values are described in true cargo sizes
 
     friend std::ostream &operator<<(std::ostream &os, const plane &dt) {
-#if TEST
-        l_size_t x = (dt.length * CARGO_LENGTH + RIGHT_MARGIN);
-        l_size_t y = (dt.width * CARGO_WIDTH + UPPER_MARGIN);
 
-        if (x < y) std::swap(x, y);
-        os << x << "\t" << y << "\t";
-        os << x * y << "\n";
-
-        return os;
-#else
         l_size_t x = (dt.length * CARGO_LENGTH + RIGHT_MARGIN);
         l_size_t y = (dt.width * CARGO_WIDTH + UPPER_MARGIN);
 
@@ -52,7 +40,6 @@ struct plane {
         os << x * y << "\n";
 
         return os;
-#endif
     }
 
 };
@@ -61,9 +48,6 @@ l_size_t func(l_size_t l, l_size_t w) {
     return (8 * (55 * w * l + 11 * l + 5 * w + 1));
 }
 
-l_size_t func(plane p) {
-    return (8 * (55 * p.width * p.length + 11 * p.length + 5 * p.width + 1));
-}
 
 plane div(l_size_t number_of_cargo);
 
@@ -75,8 +59,6 @@ int main() {
     for(int i=0;i<number_of_cases;i++){
         std::cin>>current;
         std::cout<<div(current);
-
-
     }
 
 
@@ -108,7 +90,6 @@ plane div(l_size_t number_of_cargo) {
 
             if (b < a) {
                 std::swap(a, b);
-
             }
 
             if (func(a, b) < best_for_now) { // if current result is better than previous one
