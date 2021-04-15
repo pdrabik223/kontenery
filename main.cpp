@@ -18,28 +18,8 @@
 #define RIGHT_MARGIN  4
 
 
-int div_up(int x, double y) {
-
-    double solution = x / y;
-
-    if (solution != (int) solution)solution += 1;
 
 
-    return (int) solution;
-
-}
-
-size_t div_up(size_t x, size_t y) {
-    if (y == 0) return 1;
-
-    size_t solution = x / y;
-
-    if (x % y != 0)solution++;
-
-
-    return solution;
-
-}
 
 struct plane {
     plane(size_t length, size_t width) : width(width), length(length) {};
@@ -70,10 +50,6 @@ size_t func(size_t l, size_t w) {
 size_t func(plane p) {
     return (8 * (55 * p.width * p.length + 11 * p.length + 5 * p.width + 1));
 }
-
-plane shitty_gradient_descent(size_t number_of_cargo);
-
-plane requ(size_t l, size_t w, size_t n);
 
 plane div(size_t number_of_cargo);
 
@@ -139,100 +115,3 @@ plane div(size_t number_of_cargo) {
     return current;
 }
 
-
-enum direction {
-    nowhere,
-    ml,
-    pl,
-    mw,
-    pw
-
-};
-
-plane shitty_gradient_descent(size_t number_of_cargo) {
-    size_t number_of_stacks = number_of_cargo / CARGO_STACK;
-    if (number_of_cargo % CARGO_STACK != 0)
-        number_of_stacks++;     // in case of division with leftovers (good show btw)
-    // we need to add one more stack
-
-
-    // now f(l,w) = p where   w (width) l(length)
-    // p = area
-    // f(l,w) = w*l+w*4+l*2
-    // n = w*l    n (number_of_cargo)
-
-    // now we only need to find minimum of f
-    // given w*l = n n is given
-    // easy
-
-
-    // dl = w+2         dl = f`l
-    // dw = l+4         dw = f`w
-
-    // w+2 = 0 w = -2
-    //
-
-
-    // the complete function formula:
-    // P = 8(55wl + 11l + 5w + 1) the function is defined in func
-    // now we just need to find minimum where
-    // w * l >= number_of_stacks
-    // also w, l are integers both >=1
-
-
-
-    // so we will try primitive method:
-
-    //first blind shot:
-    size_t w;
-    size_t l;
-
-
-    l = sqrt((double) (number_of_stacks / 4.4));
-    if (l == 0) l++; // l has to be grater or equal to 1;
-    w = div_up(number_of_stacks, l);
-
-    return requ(l, w, number_of_stacks);
-}
-
-plane requ(size_t l, size_t w, size_t n) {
-    size_t curr_lowest = func(l, w);
-    direction to_go_to = nowhere;
-
-    //   if (n <= (l - 1) * div_up(n, l - 1))
-    if (func(l - 1, div_up(n, l - 1)) < curr_lowest) {
-        curr_lowest = func(l - 1, div_up(n, l - 1));
-        to_go_to = ml;
-    }
-
-
-    //  if (n <= (l + 1) * div_up(n, l + 1))
-    if (func(l + 1, div_up(n, l + 1)) < curr_lowest) {
-        curr_lowest = func(l + 1, div_up(n, l + 1));
-        to_go_to = pl;
-    }
-
-    //   if (n <= div_up(n, w - 1)* (w - 1))
-    if (func(div_up(n, w - 1), w - 1) < curr_lowest) {
-        curr_lowest = func(div_up(n, w - 1), w - 1);
-        to_go_to = mw;
-    }
-    //  if (n <= div_up(n, w + 1)* (w + 1))
-    if (func(div_up(n, w + 1), w + 1) < curr_lowest) {
-
-        to_go_to = pw;
-    }
-
-    switch (to_go_to) {
-        case nowhere:
-            return plane(l, w);
-        case ml:
-            return requ(l - 1, div_up(n, l - 1), n);
-        case pl:
-            return requ(l + 1, div_up(n, l + 1), n);
-        case mw:
-            return requ(div_up(n, w - 1), w - 1, n);
-        case pw:
-            return requ(div_up(n, w + 1), w + 1, n);
-    }
-}
