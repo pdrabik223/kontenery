@@ -33,16 +33,14 @@ struct plane {
 
     friend std::ostream &operator<<(std::ostream &os, const plane &dt) {
 
-        // os << dt.length << "\t" << dt.width << "\t" << dt.length * dt.width << "\n";
-        os << (dt.length * 44 + RIGHT_MARGIN) << " x " << (dt.width * 10 + UPPER_MARGIN) << " = ";
-        os << (dt.length * 44 + RIGHT_MARGIN) * (dt.width * 10 + UPPER_MARGIN) << "\n";
+        os << (dt.length * CARGO_LENGTH + RIGHT_MARGIN) << " x " << (dt.width * CARGO_WIDTH + UPPER_MARGIN) << " = ";
+        os << (dt.length * CARGO_LENGTH + RIGHT_MARGIN) * (dt.width * CARGO_WIDTH + UPPER_MARGIN) << "\n";
 
         return os;
     }
 };
 
 size_t func(size_t l, size_t w) {
-    if (l == 0 || w == 0) return size_t(-1);
 
     return (8 * (55 * w * l + 11 * l + 5 * w + 1));
 }
