@@ -10,6 +10,7 @@
 //                length = 44
 #include <vector>
 #include <iostream>
+#include <fstream>
 
 #define CARGO_WIDTH  10
 #define CARGO_LENGTH  44 // these values are described in true cargo sizes
@@ -17,11 +18,11 @@
 #define UPPER_MARGIN  2
 #define RIGHT_MARGIN  4
 
-using l_size_t = long unsigned int;
+#define TEST false
+using l_size_t = unsigned long int ;
 
 struct plane {
     plane(l_size_t length, l_size_t width) : width(width), length(length) {
-
 
 
     };
@@ -32,18 +33,28 @@ struct plane {
     l_size_t width;     // ####   width = 2
     // these values are described in true cargo sizes
 
-
     friend std::ostream &operator<<(std::ostream &os, const plane &dt) {
-
+#if TEST
         l_size_t x = (dt.length * CARGO_LENGTH + RIGHT_MARGIN);
         l_size_t y = (dt.width * CARGO_WIDTH + UPPER_MARGIN);
 
-        if(x<y) std::swap(x,y);
+        if (x < y) std::swap(x, y);
+        os << x << "\t" << y << "\t";
+        os << x * y << "\n";
+
+        return os;
+#else
+        l_size_t x = (dt.length * CARGO_LENGTH + RIGHT_MARGIN);
+        l_size_t y = (dt.width * CARGO_WIDTH + UPPER_MARGIN);
+
+        if (x < y) std::swap(x, y);
         os << x << " x " << y << " = ";
         os << x * y << "\n";
 
         return os;
+#endif
     }
+
 };
 
 l_size_t func(l_size_t l, l_size_t w) {
@@ -58,16 +69,17 @@ plane div(l_size_t number_of_cargo);
 
 int main() {
 
-    l_size_t number_of_cases;
-    std::cin >> number_of_cases;
+    l_size_t number_of_cases ;
+    std::cin>>number_of_cases;
+    l_size_t current;
+    for(int i=0;i<number_of_cases;i++){
+        std::cin>>current;
+        std::cout<<div(current);
 
-    l_size_t current_case;
-    for (int i = 0; i < number_of_cases; i++) {
-
-        std::cin >> current_case;
-        std::cout << div(current_case);
 
     }
+
+
     return 0;
 }
 
@@ -94,19 +106,19 @@ plane div(l_size_t number_of_cargo) {
 
             // a must always be bigger than b
 
-            if(b<a) {
+            if (b < a) {
                 std::swap(a, b);
 
             }
 
-                if (func(a, b) < best_for_now) { // if current result is better than previous one
-                    best_for_now = func(a, b); // update previous
-                    current.length = a;   // update best proportions of width to length
-                    current.width = b;
-                }
+            if (func(a, b) < best_for_now) { // if current result is better than previous one
+                best_for_now = func(a, b); // update previous
+                current.length = a;   // update best proportions of width to length
+                current.width = b;
+            }
 
 
-       }
+        }
     }
 
     return current;
