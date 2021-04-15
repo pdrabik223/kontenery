@@ -79,15 +79,16 @@ plane div(size_t number_of_cargo);
 
 int main() {
 
+    size_t number_of_cases;
+    std::cin>>number_of_cases;
 
-    std::cout << div(1);
-    std::cout << div(15);
-    std::cout << div(22);
-    std::cout << div(29);
-    std::cout << div(36);
-    std::cout << div(43);
+    size_t current_case;
+    for(int i=0;i<number_of_cases;i++){
 
-    std::cout << div(688502588);
+        std::cin>>current_case;
+        std::cout<<div(current_case);
+
+    }
 
     return 0;
 }
