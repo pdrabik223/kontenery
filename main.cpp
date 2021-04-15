@@ -18,9 +18,6 @@
 #define RIGHT_MARGIN  4
 
 
-
-
-
 struct plane {
     plane(size_t length, size_t width) : width(width), length(length) {};
 
@@ -54,13 +51,13 @@ plane div(size_t number_of_cargo);
 int main() {
 
     size_t number_of_cases;
-    std::cin>>number_of_cases;
+    std::cin >> number_of_cases;
 
     size_t current_case;
-    for(int i=0;i<number_of_cases;i++){
+    for (int i = 0; i < number_of_cases; i++) {
 
-        std::cin>>current_case;
-        std::cout<<div(current_case);
+        std::cin >> current_case;
+        std::cout << div(current_case);
 
     }
 
@@ -90,7 +87,8 @@ plane div(size_t number_of_cargo) {
             size_t cash1 = func(i, rest); // create cash for function result
             size_t cash2 = func(rest, i);
 
-            if (cash1 < cash2) {                // in case where we have divisors  2 and 50 we have to check what happens when 2 is width
+            if (cash1 <
+                cash2) {                // in case where we have divisors  2 and 50 we have to check what happens when 2 is width
                 // and what happens when 50 is in width
                 // then chose best out of two
                 if (cash1 < best_for_now) { // if current result is better than previous one
